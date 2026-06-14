@@ -1,144 +1,156 @@
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins', sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
 }
 
 body{
-    background:#0f172a;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:30px;
+background:#0f172a;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
 }
 
 .register-container{
-    width:100%;
-    max-width:1100px;
-    background:#1e293b;
-    border-radius:25px;
-    overflow:hidden;
-    display:flex;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+width:100%;
+max-width:1300px;
+background:#1e293b;
+border-radius:25px;
+overflow:hidden;
+display:flex;
+box-shadow:0 20px 40px rgba(0,0,0,.4);
 }
 
-/* LEFT */
-
-.left-side{
-    width:45%;
-    background:#facc15;
-    color:#000;
-    padding:60px 40px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
+.left-panel{
+width:40%;
+background:linear-gradient(
+135deg,
+#facc15,
+#f59e0b
+);
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px;
+text-align:center;
 }
 
-.left-side h1{
-    font-size:42px;
-    font-weight:700;
+.left-panel h1{
+font-size:50px;
+font-weight:700;
+color:#000;
 }
 
-.left-side p{
-    margin-top:20px;
-    font-size:18px;
+.left-panel p{
+font-size:18px;
+margin-top:15px;
+color:#111;
 }
 
-.left-side img{
-    width:280px;
-    margin-top:40px;
+.moto-img{
+width:300px;
+margin-top:30px;
 }
 
-/* RIGHT */
-
-.right-side{
-    width:55%;
-    padding:60px;
-    color:white;
+.right-panel{
+width:60%;
+padding:50px;
+background:#1e293b;
 }
 
-.right-side h2{
-    font-size:35px;
-    margin-bottom:30px;
-    font-weight:700;
+.form-box{
+max-width:700px;
+margin:auto;
+}
+
+.form-box h2{
+font-size:40px;
+font-weight:700;
+color:white;
+}
+
+.subtitle{
+color:#94a3b8;
+margin-bottom:30px;
+}
+
+label{
+color:white;
+margin-bottom:8px;
+display:block;
 }
 
 .form-control,
 .form-select{
-    height:50px;
-    border:none;
-    border-radius:12px;
-    background:#334155;
-    color:white;
-}
-
-.form-control::placeholder{
-    color:#cbd5e1;
+height:55px;
+background:#334155;
+border:none;
+color:white;
+border-radius:12px;
 }
 
 .form-control:focus,
 .form-select:focus{
-    box-shadow:none;
-    background:#475569;
-    color:white;
+background:#475569;
+color:white;
+box-shadow:none;
 }
 
-label{
-    margin-bottom:8px;
-    font-weight:500;
+.form-control::placeholder{
+color:#cbd5e1;
 }
 
 .btn-register{
-    width:100%;
-    height:55px;
-    border:none;
-    border-radius:12px;
-    background:#facc15;
-    color:black;
-    font-size:18px;
-    font-weight:600;
-    transition:0.3s;
+width:100%;
+height:60px;
+border:none;
+border-radius:12px;
+background:#facc15;
+font-weight:700;
+font-size:18px;
+transition:.3s;
 }
 
 .btn-register:hover{
-    transform:translateY(-3px);
+transform:translateY(-3px);
 }
 
 .login-link{
-    margin-top:25px;
-    text-align:center;
-    color:#cbd5e1;
+text-align:center;
+margin-top:25px;
+color:white;
 }
 
 .login-link a{
-    color:#facc15;
-    text-decoration:none;
-    font-weight:600;
+color:#facc15;
+text-decoration:none;
+font-weight:600;
 }
 
-/* RESPONSIVE */
+.form-check-label{
+color:#cbd5e1;
+}
 
 @media(max-width:992px){
 
-    .register-container{
-        flex-direction:column;
-    }
+.register-container{
+flex-direction:column;
+}
 
-    .left-side,
-    .right-side{
-        width:100%;
-    }
+.left-panel,
+.right-panel{
+width:100%;
+}
 
-    .left-side{
-        padding:40px 20px;
-    }
+.left-panel{
+padding:50px 20px;
+}
 
-    .right-side{
-        padding:40px 25px;
-    }
+.moto-img{
+width:220px;
+}
 
 }

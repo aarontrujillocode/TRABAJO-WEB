@@ -1,0 +1,180 @@
+
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body{
+            background:#0f172a;
+            color:white;
+        }e
+
+        /* NAVBAR */
+
+        .navbar{
+            padding:15px 0;
+            background:transparent;
+        }
+
+        .navbar-brand{
+            font-size:28px;
+            font-weight:700;
+            color:#facc15 !important;
+        }
+
+        .nav-link{
+            color:white !important;
+            margin-left:20px;
+            transition:0.3s;
+        }
+
+        .nav-link:hover{
+            color:#facc15 !important;
+        }
+
+        .btn-login{
+            background:#facc15;
+            color:black;
+            border:none;
+            padding:10px 25px;
+            border-radius:10px;
+            font-weight:600;
+            transition:0.3s;
+        }
+
+        .btn-login:hover{
+            transform:scale(1.05);
+        }
+
+        /* HERO */
+
+        .hero{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+        }
+
+        .hero h1{
+            font-size:65px;
+            font-weight:700;
+            line-height:1.2;
+        }
+
+        .hero span{
+            color:#facc15;
+        }
+
+        .hero p{
+            margin-top:20px;
+            font-size:18px;
+            color:#cbd5e1;
+        }
+
+        .btn-main{
+            margin-top:30px;
+            background:#facc15;
+            color:black;
+            padding:15px 35px;
+            border:none;
+            border-radius:12px;
+            font-size:18px;
+            font-weight:600;
+            transition:0.3s;
+        }
+
+        .btn-main:hover{
+            transform:translateY(-5px);
+        }
+
+        .hero-img img{
+            width:100%;
+            animation:float 3s ease-in-out infinite;
+        }
+
+        @keyframes float{
+            0%{
+                transform:translateY(0px);
+            }
+            50%{
+                transform:translateY(-15px);
+            }
+            100%{
+                transform:translateY(0px);
+            }
+        }
+
+        /* SERVICES */
+
+        .services{
+            padding:100px 0;
+        }
+
+        .section-title{
+            text-align:center;
+            margin-bottom:60px;
+        }
+
+        .section-title h2{
+            font-size:45px;
+            font-weight:700;
+        }
+
+        .section-title span{
+            color:#facc15;
+        }
+
+        .service-card{
+            background:#1e293b;
+            padding:40px;
+            border-radius:20px;
+            text-align:center;
+            transition:0.3s;
+            height:100%;
+        }
+
+        .service-card:hover{
+            transform:translateY(-10px);
+            background:#334155;
+        }
+
+        .service-card h4{
+            margin-top:20px;
+            font-weight:600;
+        }
+
+        .service-card p{
+            color:#cbd5e1;
+        }
+
+        /* BENEFITS */
+
+        .benefits{
+            padding:100px 0;
+        }
+
+        .benefit-box{
+            margin-bottom:30px;
+        }
+
+        .benefit-box h4{
+            color:#facc15;
+        }
+
+        /* FOOTER */
+
+        footer{
+            background:#020617;
+            padding:40px 0;
+            text-align:center;
+            margin-top:80px;
+        }
+
+        footer p{
+            color:#94a3b8;
+        }
+
+
+

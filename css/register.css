@@ -1,0 +1,144 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    background:#0f172a;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.register-container{
+    width:100%;
+    max-width:1100px;
+    background:#1e293b;
+    border-radius:25px;
+    overflow:hidden;
+    display:flex;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* LEFT */
+
+.left-side{
+    width:45%;
+    background:#facc15;
+    color:#000;
+    padding:60px 40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.left-side h1{
+    font-size:42px;
+    font-weight:700;
+}
+
+.left-side p{
+    margin-top:20px;
+    font-size:18px;
+}
+
+.left-side img{
+    width:280px;
+    margin-top:40px;
+}
+
+/* RIGHT */
+
+.right-side{
+    width:55%;
+    padding:60px;
+    color:white;
+}
+
+.right-side h2{
+    font-size:35px;
+    margin-bottom:30px;
+    font-weight:700;
+}
+
+.form-control,
+.form-select{
+    height:50px;
+    border:none;
+    border-radius:12px;
+    background:#334155;
+    color:white;
+}
+
+.form-control::placeholder{
+    color:#cbd5e1;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:none;
+    background:#475569;
+    color:white;
+}
+
+label{
+    margin-bottom:8px;
+    font-weight:500;
+}
+
+.btn-register{
+    width:100%;
+    height:55px;
+    border:none;
+    border-radius:12px;
+    background:#facc15;
+    color:black;
+    font-size:18px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.btn-register:hover{
+    transform:translateY(-3px);
+}
+
+.login-link{
+    margin-top:25px;
+    text-align:center;
+    color:#cbd5e1;
+}
+
+.login-link a{
+    color:#facc15;
+    text-decoration:none;
+    font-weight:600;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:992px){
+
+    .register-container{
+        flex-direction:column;
+    }
+
+    .left-side,
+    .right-side{
+        width:100%;
+    }
+
+    .left-side{
+        padding:40px 20px;
+    }
+
+    .right-side{
+        padding:40px 25px;
+    }
+
+}

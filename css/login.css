@@ -1,0 +1,164 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    background:#0f172a;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+/* CONTAINER */
+
+.login-container{
+    width:100%;
+    max-width:1050px;
+    background:#1e293b;
+    border-radius:25px;
+    overflow:hidden;
+    display:flex;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* LEFT */
+
+.left-side{
+    width:45%;
+    background:#facc15;
+    color:black;
+    padding:60px 40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.left-side h1{
+    font-size:42px;
+    font-weight:700;
+}
+
+.left-side p{
+    margin-top:20px;
+    font-size:18px;
+}
+
+.left-side img{
+    width:260px;
+    margin-top:40px;
+}
+
+/* RIGHT */
+
+.right-side{
+    width:55%;
+    padding:60px;
+    color:white;
+}
+
+.right-side h2{
+    font-size:36px;
+    margin-bottom:35px;
+    font-weight:700;
+}
+
+/* INPUTS */
+
+.form-control{
+    height:55px;
+    border:none;
+    border-radius:12px;
+    background:#334155;
+    color:white;
+    padding-left:15px;
+}
+
+.form-control::placeholder{
+    color:#cbd5e1;
+}
+
+.form-control:focus{
+    background:#475569;
+    color:white;
+    box-shadow:none;
+}
+
+label{
+    margin-bottom:8px;
+    font-weight:500;
+}
+
+/* LINKS */
+
+.forgot-password{
+    text-decoration:none;
+    color:#facc15;
+    font-size:14px;
+}
+
+.register-link{
+    margin-top:30px;
+    text-align:center;
+    color:#cbd5e1;
+}
+
+.register-link a{
+    color:#facc15;
+    text-decoration:none;
+    font-weight:600;
+}
+
+/* BUTTON */
+
+.btn-login{
+    width:100%;
+    height:55px;
+    border:none;
+    border-radius:12px;
+    background:#facc15;
+    color:black;
+    font-size:18px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.btn-login:hover{
+    transform:translateY(-3px);
+}
+
+/* CHECKBOX */
+
+.form-check-input:checked{
+    background-color:#facc15;
+    border-color:#facc15;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:992px){
+
+    .login-container{
+        flex-direction:column;
+    }
+
+    .left-side,
+    .right-side{
+        width:100%;
+    }
+
+    .left-side{
+        padding:40px 20px;
+    }
+
+    .right-side{
+        padding:40px 25px;
+    }
+
+}

@@ -1,3 +1,75 @@
+<?php
+
+require_once 'includes/conexion.php';
+
+$mensaje = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $nombres = trim($_POST['nombres']);
+    $apellidos = trim($_POST['apellidos']);
+    $correo = trim($_POST['correo']);
+    $telefono = trim($_POST['telefono']);
+    $rol = $_POST['rol'];
+    $password = $_POST['password'];
+    $confirmar = $_POST['confirmar_password'];
+
+    if ($password != $confirmar) {
+
+        $mensaje = "Las contraseñas no coinciden";
+
+    } else {
+
+        $verificar = mysqli_query(
+            $conn,
+            "SELECT id_usuario FROM usuarios WHERE correo='$correo'"
+        );
+
+        if (mysqli_num_rows($verificar) > 0) {
+
+            $mensaje = "El correo ya está registrado";
+
+        } else {
+
+            $passwordHash = password_hash(
+                $password,
+                PASSWORD_DEFAULT
+            );
+
+            $sql = "INSERT INTO usuarios
+            (
+                nombres,
+                apellidos,
+                correo,
+                telefono,
+                password,
+                rol
+            )
+            VALUES
+            (
+                '$nombres',
+                '$apellidos',
+                '$correo',
+                '$telefono',
+                '$passwordHash',
+                '$rol'
+            )";
+
+            if (mysqli_query($conn, $sql)) {
+
+                header("Location: login.php");
+                exit();
+
+            } else {
+
+                $mensaje = "Error al registrar usuario";
+
+            }
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -42,15 +114,21 @@
 
     <div class="right-panel">
 
-        <div class="form-box">
+<div class="form-box">
 
-            <h2>Crear Cuenta</h2>
+    <h2>Crear Cuenta</h2>
 
-            <p class="subtitle">
-                Completa tus datos para comenzar
-            </p>
+    <?php if(!empty($mensaje)): ?>
+        <div class="alert alert-warning">
+            <?php echo $mensaje; ?>
+        </div>
+    <?php endif; ?>
 
-            <form>
+    <p class="subtitle">
+        Completa tus datos para comenzar
+    </p>
+
+        <form method="POST">
 
                 <div class="row">
 
@@ -58,9 +136,9 @@
 
                         <label>Nombres</label>
 
-                        <input type="text"
-                        class="form-control"
-                        placeholder="Nombres">
+                        <input type="text" name="nombres" placeholder="Nombres" class="form-control" required>
+
+
 
                     </div>
 
@@ -68,9 +146,8 @@
 
                         <label>Apellidos</label>
 
-                        <input type="text"
-                        class="form-control"
-                        placeholder="Apellidos">
+<input type="text" name="apellidos" placeholder="Apellidos" class="form-control" required>
+
 
                     </div>
 
@@ -80,9 +157,7 @@
 
                     <label>Correo Electrónico</label>
 
-                    <input type="email"
-                    class="form-control"
-                    placeholder="correo@ejemplo.com">
+<input type="email" name="correo" class="form-control" required>
 
                 </div>
 
@@ -90,23 +165,18 @@
 
                     <label>Teléfono</label>
 
-                    <input type="text"
-                    class="form-control"
-                    placeholder="+51 999999999">
+<input type="text" name="telefono" class="form-control" required>
+
 
                 </div>
 
                 <div class="mb-3">
 
                     <label>Tipo de Usuario</label>
-
-                    <select class="form-select">
-
-                        <option>Cliente</option>
-
-                        <option>Motorizado</option>
-
-                    </select>
+<select name="rol" class="form-select" required>
+    <option value="cliente">Cliente</option>
+    <option value="motorizado">Motorizado</option>
+</select>
 
                 </div>
 
@@ -116,8 +186,7 @@
 
                         <label>Contraseña</label>
 
-                        <input type="password"
-                        class="form-control">
+<input type="password" name="password" class="form-control" required>
 
                     </div>
 
@@ -125,8 +194,7 @@
 
                         <label>Confirmar</label>
 
-                        <input type="password"
-                        class="form-control">
+<input type="password" name="confirmar_password" class="form-control" required>
 
                     </div>
 
@@ -145,7 +213,7 @@
 
                 </div>
 
-                <button class="btn-register">
+         <button type="submit" class="btn-register">
 
                     Crear Cuenta
 
@@ -155,7 +223,7 @@
 
                     ¿Ya tienes cuenta?
 
-                    <a href="login.html">
+                    <a href="login.php">
 
                         Iniciar Sesión
 

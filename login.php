@@ -1,3 +1,76 @@
+<?php
+
+session_start();
+
+require_once 'includes/conexion.php';
+
+$error = "";
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    $correo = $_POST['correo'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM usuarios
+            WHERE correo='$correo'";
+
+    $resultado = mysqli_query($conn,$sql);
+
+    if(mysqli_num_rows($resultado) == 1){
+
+        $usuario = mysqli_fetch_assoc($resultado);
+
+        if(password_verify(
+            $password,
+            $usuario['password']
+        )){
+
+            $_SESSION['id_usuario'] =
+            $usuario['id_usuario'];
+
+            $_SESSION['nombre'] =
+            $usuario['nombres'];
+
+            $_SESSION['rol'] =
+            $usuario['rol'];
+
+            if($usuario['rol']=="cliente"){
+
+                header(
+                    "Location: dashboard-user.php"
+                );
+
+            }elseif($usuario['rol']=="motorizado"){
+
+                header(
+                    "Location: dashboard-driver.php"
+                );
+
+            }else{
+
+                header(
+                    "Location: dashboard-admin.php"
+                );
+
+            }
+
+            exit();
+
+        }else{
+
+            $error = "Contraseña incorrecta";
+
+        }
+
+    }else{
+
+        $error = "Usuario no encontrado";
+
+    }
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -44,22 +117,28 @@
 
         <div class="login-box">
 
-            <h2>Bienvenido</h2>
+<h2>Bienvenido</h2>
 
-            <p class="subtitle">
-                Inicia sesión para continuar
-            </p>
+<?php if(!empty($error)): ?>
+    <div class="alert alert-danger">
+        <?php echo $error; ?>
+    </div>
+<?php endif; ?>
 
-            <form>
+<p class="subtitle">
+    Inicia sesión para continuar
+</p>
+            <form method="POST">
 
                 <div class="input-group-custom">
 
                     <i class="bi bi-envelope-fill"></i>
-
-                    <input
-                    type="email"
-                    class="form-control"
-                    placeholder="Correo electrónico">
+<input
+type="email"
+name="correo"
+class="form-control"
+placeholder="Correo electrónico"
+required>
 
                 </div>
 
@@ -67,10 +146,12 @@
 
                     <i class="bi bi-lock-fill"></i>
 
-                    <input
-                    type="password"
-                    class="form-control"
-                    placeholder="Contraseña">
+<input
+type="password"
+name="password"
+class="form-control"
+placeholder="Contraseña"
+required>
 
                 </div>
 
@@ -94,11 +175,11 @@
 
                 </div>
 
-                <button class="btn-login">
-
-                    Iniciar Sesión
-
-                </button>
+<button
+type="submit"
+class="btn-login">
+Iniciar Sesión
+</button>
 
                 <div class="separator">
 
@@ -120,7 +201,7 @@
 
                     ¿No tienes cuenta?
 
-                    <a href="register.html">
+                    <a href="register.php">
 
                         Regístrate
 

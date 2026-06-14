@@ -1,7 +1,15 @@
 <?php
-require_once 'includes/conexion.php';
-?>
 
+session_start();
+
+require_once 'includes/conexion.php';
+
+if(!isset($_SESSION['id_usuario'])){
+    header("Location: login.php");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -82,7 +90,7 @@ require_once 'includes/conexion.php';
         <img src="https://i.pravatar.cc/150?img=12">
 
         <div>
-            <h6>Aaron</h6>
+            <h6><?php echo $_SESSION['nombre']; ?></h6>
             <small>Cliente</small>
         </div>
 
@@ -99,13 +107,18 @@ require_once 'includes/conexion.php';
             <span>Solicita un viaje o delivery</span>
         </div>
 
-        <div class="icons">
+<div class="icons">
 
-            <i class="bi bi-bell-fill"></i>
+    <i class="bi bi-bell-fill"></i>
 
-            <i class="bi bi-gear-fill"></i>
+    <i class="bi bi-gear-fill"></i>
 
-        </div>
+    <a href="logout.php" class="btn-logout">
+        <i class="bi bi-box-arrow-right"></i>
+        Salir
+    </a>
+
+</div>
 
     </div>
 

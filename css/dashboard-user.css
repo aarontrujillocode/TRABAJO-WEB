@@ -158,3 +158,17 @@ font-weight:600;
 .table{
 margin-bottom:0;
 }
+.btn-logout{
+    background:#ef4444;
+    color:white;
+    padding:10px 15px;
+    border-radius:10px;
+    text-decoration:none;
+    margin-left:15px;
+    font-weight:600;
+}
+
+.btn-logout:hover{
+    background:#dc2626;
+    color:white;
+}

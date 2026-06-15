@@ -215,5 +215,29 @@ width:220px;
 .right-panel{
 padding:40px 25px;
 }
+.back-home{
+    margin-bottom:20px;
+}
 
+.back-home a{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+    color:#facc15;
+    font-weight:600;
+    padding:10px 15px;
+    border:1px solid #facc15;
+    border-radius:10px;
+    transition:.3s;
+}
+
+.back-home a:hover{
+    background:#facc15;
+    color:#000;
+}
+
+.back-home i{
+    font-size:18px;
+}
 }

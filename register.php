@@ -55,10 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 '$rol'
             )";
 
-            if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conn, $sql)) {
 
-                header("Location: login.php");
-                exit();
+    header("Location: login.php?registro=ok");
+    exit();
 
             } else {
 

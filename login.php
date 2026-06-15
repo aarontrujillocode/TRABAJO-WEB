@@ -116,8 +116,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="right-panel">
 
         <div class="login-box">
+            <div class="back-home">
+    <a href="index.php">
+        <i class="bi bi-arrow-left-circle-fill"></i>
+        Volver al Inicio
+    </a>
+</div>
 
 <h2>Bienvenido</h2>
+
+<?php if(isset($_GET['registro']) && $_GET['registro'] == 'ok'): ?>
+    <div class="alert alert-success">
+        ✅ Usuario registrado correctamente. Ya puedes iniciar sesión.
+    </div>
+<?php endif; ?>
 
 <?php if(!empty($error)): ?>
     <div class="alert alert-danger">

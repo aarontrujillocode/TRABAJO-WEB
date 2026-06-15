@@ -1,7 +1,20 @@
 <?php
-require_once 'includes/conexion.php';
-?>
 
+session_start();
+
+require_once 'includes/conexion.php';
+
+if(!isset($_SESSION['id_usuario'])){
+    header("Location: login.php");
+    exit();
+}
+
+if($_SESSION['rol'] != 'motorizado'){
+    header("Location: login.php");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -82,8 +95,10 @@ require_once 'includes/conexion.php';
         <img src="https://i.pravatar.cc/100?img=15">
 
         <div>
-            <h6>Carlos Ramos</h6>
-            <small>Motorizado</small>
+            <h6><?php echo $_SESSION['nombre']; ?></h6>
+            <small>
+<?php echo ucfirst($_SESSION['rol']); ?>
+</small>
         </div>
 
     </div>
@@ -99,13 +114,18 @@ require_once 'includes/conexion.php';
             <span>Gestiona tus viajes y ganancias</span>
         </div>
 
-        <div>
+<div class="top-actions">
 
-            <span class="status-online">
-                Disponible
-            </span>
+    <span class="status-online">
+        Disponible
+    </span>
 
-        </div>
+    <a href="logout.php" class="btn-logout">
+        <i class="bi bi-box-arrow-right"></i>
+        Salir
+    </a>
+
+</div>
 
     </div>
 

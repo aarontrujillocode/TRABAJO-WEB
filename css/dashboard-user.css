@@ -172,3 +172,8 @@ margin-bottom:0;
     background:#dc2626;
     color:white;
 }
+#map{
+    height:450px;
+    border-radius:15px;
+    overflow:hidden;
+}

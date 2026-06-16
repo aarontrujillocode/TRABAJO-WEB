@@ -9,7 +9,7 @@ if(!isset($_SESSION['id_usuario'])){
     exit();
 }
 
-if($_SESSION['rol'] != 'motorizado'){
+if($_SESSION['rol'] != 'cliente'){
     header("Location: login.php");
     exit();
 }
@@ -18,7 +18,7 @@ if($_SESSION['rol'] != 'motorizado'){
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
+ 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -200,12 +200,18 @@ if($_SESSION['rol'] != 'motorizado'){
                 <div class="section-title">
                     Mapa en Tiempo Real
                 </div>
+<div id="map">
 
-                <div id="map">
+    <iframe
+        src="https://www.google.com/maps?q=Lima,Peru&output=embed"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy">
+    </iframe>
 
-                    MAPA GOOGLE MAPS
-
-                </div>
+</div>
 
             </div>
 

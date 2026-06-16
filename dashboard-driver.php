@@ -205,9 +205,18 @@ if($_SESSION['rol'] != 'motorizado'){
 
                 <h5>Mapa en Tiempo Real</h5>
 
-                <div id="map">
-                    GOOGLE MAPS
-                </div>
+<div id="map">
+
+    <iframe
+        src="https://www.google.com/maps?q=Lima,Peru&output=embed"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy">
+    </iframe>
+
+</div>
 
             </div>
 

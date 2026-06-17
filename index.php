@@ -72,52 +72,54 @@
 
     <!-- HERO -->
 
-    <section class="hero" id="inicio">
+<section class="hero" id="inicio">
 
-        <div class="container">
+    <div class="container">
 
-            <div class="row align-items-center">
+        <div class="row align-items-center min-vh-100">
 
-                <div class="col-lg-6">
+            <div class="col-lg-6 text-center text-lg-start">
 
-                    <span class="badge-custom">
-                        Disponible 24/7
-                    </span>
+                <span class="badge-custom">
+                    🚀 Disponible 24/7
+                </span>
 
-                    <h1>
-                        Muévete más rápido con
-                        <span>Drive Moto</span>
-                    </h1>
+                <h1>
+                    Transporte y Delivery
+                    <span>Más Rápido</span>
+                    en tu Ciudad
+                </h1>
 
-                    <p>
-                        Solicita viajes, delivery y envíos express desde cualquier lugar.
-                    </p>
+                <p>
+                    Conecta clientes y motorizados en tiempo real.
+                    Solicita viajes, envíos y delivery desde cualquier lugar.
+                </p>
 
-                    <div class="hero-buttons">
+                <div class="hero-buttons">
 
-                        <a href="register.html" class="btn-primary-custom">
-                            Comenzar Ahora
-                        </a>
+                    <a href="register.php" class="btn-primary-custom">
+                        Crear Cuenta
+                    </a>
 
-                        <a href="#servicios" class="btn-secondary-custom">
-                            Ver Servicios
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <div class="col-lg-6 text-center">
-
-                    <img src="img/moto.png" class="hero-image">
+                    <a href="login.php" class="btn-secondary-custom">
+                        Iniciar Sesión
+                    </a>
 
                 </div>
 
             </div>
 
+            <div class="col-lg-6 text-center">
+
+                <img src="img/moto.png" class="hero-image img-fluid">
+
+            </div>
+
         </div>
 
-    </section>
+    </div>
+
+</section>
 
     <!-- STATS -->
 
@@ -282,10 +284,9 @@
             <h2>
                 ¿Listo para comenzar?
             </h2>
-
-            <a href="register.html" class="btn-primary-custom">
-                Crear Cuenta
-            </a>
+<a href="register.php" class="btn-primary-custom">
+    Crear Cuenta
+</a>
 
         </div>
 
@@ -310,7 +311,7 @@
         </div>
 
     </footer>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

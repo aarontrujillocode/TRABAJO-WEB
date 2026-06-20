@@ -3,7 +3,38 @@
 session_start();
 
 require_once 'includes/conexion.php';
+if(isset($_POST['solicitar'])){
 
+    $origen = trim($_POST['origen']);
+    $destino = trim($_POST['destino']);
+    $precio = trim($_POST['precio']);
+
+    $id_cliente = $_SESSION['id_usuario'];
+
+    $sql = "INSERT INTO solicitudes
+    (
+        id_cliente,
+        origen,
+        destino,
+        precio
+    )
+    VALUES
+    (
+        '$id_cliente',
+        '$origen',
+        '$destino',
+        '$precio'
+    )";
+
+    if(mysqli_query($conn,$sql)){
+
+        $mensaje = "✅ Solicitud enviada correctamente";
+
+    }else{
+
+        $mensaje = "❌ Error al enviar solicitud";
+    }
+}
 if(!isset($_SESSION['id_usuario'])){
     header("Location: login.php");
     exit();
@@ -219,26 +250,50 @@ if($_SESSION['rol'] != 'cliente'){
 
         <div class="col-lg-4">
 
-            <div class="request-card">
+           <div class="request-card">
 
-                <h4>Solicitar Viaje</h4>
+    <h4>Solicitar Viaje</h4>
 
-                <input type="text"
-                class="form-control mb-3"
-                placeholder="Origen">
+    <?php if(!empty($mensaje)): ?>
 
-                <input type="text"
-                class="form-control mb-3"
-                placeholder="Destino">
+        <div class="alert alert-success">
+            <?php echo $mensaje; ?>
+        </div>
 
-                <input type="number"
-                class="form-control mb-3"
-                placeholder="Precio Propuesto">
+    <?php endif; ?>
 
-                <button class="btn-request">
-                    Buscar Motorizado
-                </button>
+    <form method="POST">
+<input
+type="text"
+name="origen"
+class="form-control mb-3"
+placeholder="Origen"
+required>
 
+<input
+type="text"
+name="destino"
+class="form-control mb-3"
+placeholder="Destino"
+required>
+
+<input
+type="number"
+step="0.01"
+name="precio"
+class="form-control mb-3"
+placeholder="Precio Propuesto"
+required>
+
+<button
+type="submit"
+name="solicitar"
+class="btn-request">
+
+    Buscar Motorizado
+
+</button>
+</form>
             </div>
 
         </div>

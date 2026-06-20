@@ -226,37 +226,51 @@ if($_SESSION['rol'] != 'motorizado'){
 
         <div class="col-lg-4">
 
-            <div class="requests-card">
+<div class="requests-card">
 
-                <h5>Solicitudes Cercanas</h5>
+    <h5>Solicitudes Cercanas</h5>
 
-                <div class="request-item">
+    <?php
 
-                    <strong>Miraflores</strong>
+    $sql = "SELECT * FROM solicitudes
+            WHERE estado='pendiente'
+            ORDER BY fecha DESC";
 
-                    <p>Destino: San Isidro</p>
+    $resultado = mysqli_query($conn, $sql);
 
-                    <span>S/ 12.00</span>
+    while($fila = mysqli_fetch_assoc($resultado)){
 
-                    <button class="btn-accept">
-                        Aceptar
-                    </button>
+    ?>
 
-                </div>
+        <div class="request-item">
 
-                <div class="request-item">
+            <strong>
+                <?php echo $fila['origen']; ?>
+            </strong>
 
-                    <strong>Surco</strong>
+            <p>
+                Destino:
+                <?php echo $fila['destino']; ?>
+            </p>
 
-                    <p>Destino: Barranco</p>
+            <span>
+                S/ <?php echo $fila['precio']; ?>
+            </span>
 
-                    <span>S/ 15.00</span>
+            <button class="btn-accept">
+                <a href="aceptar_solicitud.php?id=<?php echo $fila['id_solicitud']; ?>"
+   class="btn-accept">
+    Aceptar
+</a>
+            </button>
 
-                    <button class="btn-accept">
-                        Aceptar
-                    </button>
+        </div>
 
-                </div>
+    <?php
+    }
+    ?>
+
+</div>
 
             </div>
 

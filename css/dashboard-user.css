@@ -177,3 +177,31 @@ margin-bottom:0;
     border-radius:15px;
     overflow:hidden;
 }
+#map{
+
+    width:100%;
+    height:450px;
+    border-radius:15px;
+
+}
+#listaDestinos{
+
+    max-height:220px;
+    overflow-y:auto;
+    border-radius:12px;
+
+}
+
+#listaDestinos .list-group-item{
+
+    cursor:pointer;
+    transition:.2s;
+
+}
+
+#listaDestinos .list-group-item:hover{
+
+    background:#0d6efd;
+    color:white;
+
+}

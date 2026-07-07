@@ -1,40 +1,9 @@
 <?php
-
+ob_start(); // 1. ACTIVAR EL BUFFER (Evita el problema de los headers ya enviados)
 session_start();
-
 require_once 'includes/conexion.php';
-if(isset($_POST['solicitar'])){
 
-    $origen = trim($_POST['origen']);
-    $destino = trim($_POST['destino']);
-    $precio = trim($_POST['precio']);
-
-    $id_cliente = $_SESSION['id_usuario'];
-
-    $sql = "INSERT INTO solicitudes
-    (
-        id_cliente,
-        origen,
-        destino,
-        precio
-    )
-    VALUES
-    (
-        '$id_cliente',
-        '$origen',
-        '$destino',
-        '$precio'
-    )";
-
-    if(mysqli_query($conn,$sql)){
-
-        $mensaje = "✅ Solicitud enviada correctamente";
-
-    }else{
-
-        $mensaje = "❌ Error al enviar solicitud";
-    }
-}
+// Verificar si el usuario está logueado y es cliente
 if(!isset($_SESSION['id_usuario'])){
     header("Location: login.php");
     exit();
@@ -45,6 +14,41 @@ if($_SESSION['rol'] != 'cliente'){
     exit();
 }
 
+// Procesar el formulario si se envió
+if(isset($_POST['solicitar'])){
+
+    $origen = trim($_POST['origen']);
+    $destino = trim($_POST['destino']);
+    $precio = trim($_POST['precio']);
+    $id_cliente = $_SESSION['id_usuario'];
+
+    $origen = mysqli_real_escape_string($conn, $origen);
+    $destino = mysqli_real_escape_string($conn, $destino);
+    $precio = mysqli_real_escape_string($conn, $precio);
+
+    $sql = "INSERT INTO solicitudes (id_cliente, origen, destino, precio)
+            VALUES ('$id_cliente', '$origen', '$destino', '$precio')";
+
+    if(mysqli_query($conn, $sql)){
+        $_SESSION['mensaje'] = "✅ Solicitud enviada correctamente";
+    } else {
+        $_SESSION['mensaje'] = "❌ Error al enviar solicitud";
+    }
+
+    // Redirección PHP limpia
+    header("Location: " . $_SERVER['PHP_SELF']);
+    
+    // Respaldo inmediato por JavaScript por si tu servidor tiene restricciones de headers
+    echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "';</script>";
+    exit();
+}
+
+// Recuperar el mensaje si existe en la sesión
+$mensaje = "";
+if(isset($_SESSION['mensaje'])){
+    $mensaje = $_SESSION['mensaje'];
+    unset($_SESSION['mensaje']); 
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -244,160 +248,115 @@ src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 
         </div>
 
+<!-- COLUMNA DEL FORMULARIO DE SOLICITUD (CORREGIDA) -->
         <div class="col-lg-4">
 
-           <div class="request-card">
+           <div class="request-card p-4 rounded-3 bg-dark text-white border border-secondary">
 
-    <h4>Solicitar Viaje</h4>
+                <h4 class="mb-4 text-warning">
+                    <i class="bi bi-scooter"></i>
+                    Solicitar Viaje
+                </h4>
 
-    <?php if(!empty($mensaje)): ?>
+                <!-- Alertas de éxito o error -->
+                <?php if(!empty($mensaje)): ?>
+                    <div class="alert alert-success py-2 mb-3">
+                        <?php echo $mensaje; ?>
+                    </div>
+                <?php endif; ?>
 
-        <div class="alert alert-success">
-            <?php echo $mensaje; ?>
-        </div>
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
 
-    <?php endif; ?>
+                    <!-- ORIGEN -->
+                    <div class="mb-3">
+                        <label class="form-label text-light">
+                            <i class="bi bi-crosshair text-success"></i>
+                            Punto de origen
+                        </label>
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                id="origen"
+                                name="origen"
+                                class="form-control"
+                                placeholder="Obteniendo ubicación..."
+                                readonly
+                                required>
+                            <button
+                                class="btn btn-success"
+                                type="button"
+                                onclick="obtenerUbicacion()">
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </button>
+                        </div>
+                    </div>
 
-<div class="request-card">
+                    <!-- DESTINO -->
+                    <div class="mb-3">
+                        <label class="form-label text-light">
+                            <i class="bi bi-flag-fill text-danger"></i>
+                            Destino
+                        </label>
+                        <input
+                            type="text"
+                            id="destino"
+                            name="destino"
+                            class="form-control"
+                            placeholder="Escribe un distrito o dirección..."
+                            autocomplete="off"
+                            required>
+                        <div id="listaDestinos" class="list-group mt-2" style="display:none; position:absolute; z-index:1000; width:90%;">
+                        </div>
+                    </div>
 
-    <h4 class="mb-4">
-        <i class="bi bi-scooter"></i>
-        Solicitar Viaje
-    </h4>
+                    <!-- DISTANCIA -->
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">
+                            <i class="bi bi-signpost-2-fill text-primary"></i>
+                            Distancia
+                        </label>
+                        <input type="text" id="distancia" class="form-control form-control-sm" readonly>
+                    </div>
 
-    <form method="POST">
+                    <!-- TIEMPO -->
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">
+                            <i class="bi bi-clock-fill text-info"></i>
+                            Tiempo estimado
+                        </label>
+                        <input type="text" id="tiempo" class="form-control form-control-sm" readonly>
+                    </div>
 
-        <!-- ORIGEN -->
+                    <!-- PRECIO -->
+                    <div class="mb-4">
+                        <label class="form-label text-light fw-bold">
+                            <i class="bi bi-cash-stack text-warning"></i>
+                            Precio sugerido
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary text-white">S/</span>
+                            <input
+                                type="text"
+                                id="precio"
+                                name="precio"
+                                class="form-control fw-bold text-success"
+                                readonly
+                                required>
+                        </div>
+                    </div>
 
-        <div class="mb-3">
+                    <button
+                        type="submit"
+                        name="solicitar"
+                        class="btn btn-warning w-100 py-3 fw-bold shadow-sm">
+                        <i class="bi bi-search"></i>
+                        Buscar Motorizado
+                    </button>
 
-            <label class="form-label">
-                <i class="bi bi-crosshair text-success"></i>
-                Punto de origen
-            </label>
-
-            <div class="input-group">
-
-                <input
-                    type="text"
-                    id="origen"
-                    name="origen"
-                    class="form-control"
-                    placeholder="Obteniendo ubicación..."
-                    readonly
-                    required>
-
-                <button
-                    class="btn btn-success"
-                    type="button"
-                    onclick="obtenerUbicacion()">
-
-                    <i class="bi bi-geo-alt-fill"></i>
-
-                </button>
-
+                </form>
             </div>
 
         </div>
-
-        <!-- DESTINO -->
-
-<div class="mb-3">
-
-    <label class="form-label">
-        <i class="bi bi-flag-fill text-danger"></i>
-        Destino
-    </label>
-
-    <input
-        type="text"
-        id="destino"
-        name="destino"
-        class="form-control"
-        placeholder="Escribe un distrito o dirección..."
-        autocomplete="off"
-        required>
-
-    <div
-        id="listaDestinos"
-        class="list-group mt-2">
-    </div>
-
-</div>
-
-<!-- DISTANCIA -->
-
-<div class="mb-3">
-
-    <label class="form-label">
-        <i class="bi bi-signpost-2-fill text-primary"></i>
-        Distancia
-    </label>
-
-    <input
-        type="text"
-        id="distancia"
-        class="form-control"
-        readonly>
-
-</div>
-
-<!-- TIEMPO -->
-
-<div class="mb-3">
-
-    <label class="form-label">
-        <i class="bi bi-clock-fill text-info"></i>
-        Tiempo estimado
-    </label>
-
-    <input
-        type="text"
-        id="tiempo"
-        class="form-control"
-        readonly>
-
-</div>
-
-<!-- PRECIO -->
-
-<div class="mb-4">
-
-    <label class="form-label">
-        <i class="bi bi-cash-stack text-warning"></i>
-        Precio sugerido
-    </label>
-
-    <div class="input-group">
-
-        <span class="input-group-text">
-            S/
-        </span>
-
-        <input
-            type="text"
-            id="precio"
-            name="precio"
-            class="form-control"
-            readonly>
-
-    </div>
-
-</div>
-<button
-    type="submit"
-    name="solicitar"
-    class="btn btn-warning w-100 py-3 fw-bold">
-
-    <i class="bi bi-search"></i>
-    Buscar Motorizado
-
-</button>
-            </div>
-
-        </div>
-
-    </div>
 
     <div class="history-card mt-4">
 
@@ -728,8 +687,9 @@ function calcularRuta(){
 
 }
 window.onload = iniciarMapa;
-
 </script>
-
 </body>
 </html>
+<?php 
+ob_end_flush(); 
+?>

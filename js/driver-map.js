@@ -98,7 +98,7 @@ function trazarRutaDesdeGPS(lat, lng, destino) {
                 lineOptions: {
                     styles: [
                         { color: '#000000', opacity: 0.7, weight: 10 }, 
-                        { color: '#ffc107', opacity: 1, weight: 6 }     
+                        { color: '#FF0000', opacity: 1, weight: 6 }     
                     ]
                 },
                 addWaypoints: false,

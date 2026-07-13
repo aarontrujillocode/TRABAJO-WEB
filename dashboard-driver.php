@@ -33,7 +33,7 @@ if(mysqli_num_rows($res_viaje) > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Motorizado | Drive Moto</title>
-    
+    <link rel="icon" type="image/png" href="img/motologo.png">
     <!-- Bootstrap 5 & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -41,14 +41,13 @@ if(mysqli_num_rows($res_viaje) > 0) {
 // Declaramos las variables globales que el script driver-map.js va a leer de forma automática
 const tieneViajeActivo = <?php echo $viaje_activo ? 'true' : 'false'; ?>;
 const destinoTextoGlobal = "<?php echo $viaje_activo ? addslashes($viaje_activo['destino']) : ''; ?>";
-</script>       
+</script>               
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/dashboard-driver.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>      
     <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
 <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 <script>
     
@@ -107,7 +106,7 @@ function trazarRutaExclusivaDriver(origen, destino) {
                 lineOptions: {
                     styles: [
                         { color: '#000000', opacity: 0.7, weight: 10 }, // Sombra de contraste
-                        { color: '#ffc107', opacity: 1, weight: 6 }     // Línea amarilla Drive Moto
+                        { color: '#FF0000', opacity: 1, weight: 6 }     // Línea amarilla Drive Moto
                     ]
                 }
             }).addTo(map);

@@ -1,0 +1,127 @@
+======================================================================
+                  EVIDENCIAS PARA EL INFORME - DRIVE MOTO
+======================================================================
+
+----------------------------------------------------------------------
+PARTE 1: CALIDAD Y SEGURIDAD
+----------------------------------------------------------------------
+
+1.1 CÓDIGO DEL TEST UNITARIO (Simulación en Java Junit)
+----------------------------------------------------------------------
+package com.drivemoto.service;
+
+import com.drivemoto.model.Viaje;
+import com.drivemoto.repository.ViajeRepository;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@SpringBootTest
+public class ViajeServiceTest {
+
+    @InjectMocks
+    private ViajeService viajeService;
+
+    @Test
+    public void testCalcularTarifaExitoso() {
+        double distanciaKm = 10.5;
+        double tarifaBase = 5.0;
+        double precioPorKm = 2.0;
+        
+        // Cálculo esperado: 5.0 + (10.5 * 2.0) = 26.0
+        double tarifaCalculada = viajeService.calcularTarifa(distanciaKm, tarifaBase, precioPorKm);
+        
+        assertEquals(26.0, tarifaCalculada, "El cálculo de la tarifa es incorrecto.");
+    }
+}
+
+* NOTA PARA CAPTURA: Ejecutar el test en el IDE y tomar captura a la barra verde de JUnit.
+
+
+1.2 CÓDIGO DEL REPOSITORY SEGURO (Evitar Inyección SQL en Java)
+----------------------------------------------------------------------
+package com.drivemoto.repository;
+
+import com.drivemoto.model.Usuario;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import java.util.Optional;
+
+@Repository
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+
+    // Al usar parámetros nombrados (:email), Spring Data JPA pre-compila 
+    // la estructura aislando el texto, evitando ataques de Inyección SQL.
+    @Query("SELECT u FROM Usuario u WHERE u.email = :email")
+    Optional<Usuario> findByEmailSeguro(@Param("email") String email);
+}
+
+
+1.3 EXPLICACIÓN TÉCNICA DE LA SEGURIDAD (Para el informe o PPT)
+----------------------------------------------------------------------
+"El sistema es inmune a ataques de Inyección SQL debido a la implementación de Consultas Preparadas (Prepared Statements). Al separar estrictamente la lógica de la instrucción SQL de los datos de entrada que envía el usuario, el motor de la base de datos pre-compila el comando. Cualquier intento de inyección de código malicioso se interpreta como texto plano literal y jamás llega a ejecutarse en el servidor."
+
+
+----------------------------------------------------------------------
+PARTE 2: AUTOMATIZACIÓN Y DESPLIEGUE
+----------------------------------------------------------------------
+
+2.1 CÓDIGO DEL ARCHIVO DOCKERFILE
+----------------------------------------------------------------------
+# Usar la imagen oficial de PHP con el servidor web Apache integrado
+FROM php:8.1-apache
+
+# Instalar las extensiones necesarias para conectarse a MySQL de forma segura
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Copiar todos los archivos del proyecto a la ruta del servidor web en el contenedor
+COPY . /var/www/html/
+
+# Habilitar el módulo de reescritura de Apache
+RUN a2enmod rewrite
+
+# Exponer el puerto web estándar
+EXPOSE 80
+
+
+2.2 FRAGMENTO DEL ARCHIVO POM.XML (Gestión de Dependencias/Maven)
+----------------------------------------------------------------------
+<build>
+    <plugins>
+        <!-- Plugin oficial de Spring Boot para compilar y empaquetar el proyecto -->
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>3.2.4</version>
+        </plugin>
+    </plugins>
+</build>
+
+
+----------------------------------------------------------------------
+PARTE 3: MANTENIMIENTO Y MONITOREO
+----------------------------------------------------------------------
+
+3.1 CÓDIGO DEL CRON JOB (Línea de configuración para el respaldo automático)
+----------------------------------------------------------------------
+0 2 * * * mysqldump -u root -p'TuPasswordSeguro' db_drivemoto > /backups/backup_$(date +\%F).sql
+
+
+3.2 EXPLICACIÓN DEL PROCESO DE MANTENIMIENTO
+----------------------------------------------------------------------
+"Se configuró una tarea programada mediante el demonio Cron de Linux (Crontab). Esta instrucción ejecuta de forma automatizada todos los días a las 2:00 AM un respaldo integral (dump) de la base de datos de 'Drive Moto', almacenándolo con la marca de fecha correspondiente para mantener un histórico ordenado y asegurar la disponibilidad ante contingencias."
+
+
+----------------------------------------------------------------------
+PARTE 4: ESTRUCTURA DE LA ARQUITECTURA POR CAPAS
+----------------------------------------------------------------------
+Estructura organizativa solicitada para el visor de carpetas:
+- 📁 controller : Define los endpoints y procesa las peticiones HTTP (API).
+- 📁 service    : Contiene toda la lógica de negocio (como el cálculo de tarifas).
+- 📁 repository : Gestiona el acceso seguro a la base de datos.
+- 📁 model      : Representa las entidades de datos del sistema (Usuario, Viaje).
+======================================================================

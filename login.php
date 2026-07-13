@@ -1,73 +1,52 @@
 <?php
-
 session_start();
+include 'conexion.php';
 
-require_once 'includes/conexion.php';
+// Validamos que el usuario haya presionado el botón de ingresar
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    $email_usuario = $_POST['email'];
+    $password_usuario = $_POST['password']; // Contraseña escrita en el formulario
 
-$error = "";
+    // 1. Preparamos la plantilla de la consulta con el marcador '?' para blindarlo
+    $sql = "SELECT id_usuario, nombres, password, rol FROM usuarios WHERE email = ?";
+    $stmt = mysqli_prepare($conn, $sql);
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-    $correo = $_POST['correo'];
-    $password = $_POST['password'];
-
-    $sql = "SELECT * FROM usuarios
-            WHERE correo='$correo'";
-
-    $resultado = mysqli_query($conn,$sql);
-
-    if(mysqli_num_rows($resultado) == 1){
-
-        $usuario = mysqli_fetch_assoc($resultado);
-
-        if(password_verify(
-            $password,
-            $usuario['password']
-        )){
-
-            $_SESSION['id_usuario'] =
-            $usuario['id_usuario'];
-
-            $_SESSION['nombre'] =
-            $usuario['nombres'];
-
-            $_SESSION['rol'] =
-            $usuario['rol'];
-
-            if($usuario['rol']=="cliente"){
-
-                header(
-                    "Location: dashboard-user.php"
-                );
-
-            }elseif($usuario['rol']=="motorizado"){
-
-                header(
-                    "Location: dashboard-driver.php"
-                );
-
-            }else{
-
-                header(
-                    "Location: dashboard-admin.php"
-                );
-
+    if ($stmt) {
+        // 2. Vinculamos el correo de manera segura
+        mysqli_stmt_bind_param($stmt, "s", $email_usuario);
+        
+        // 3. Ejecutamos
+        mysqli_stmt_execute($stmt);
+        
+        $resultado = mysqli_stmt_get_result($stmt);
+        
+        if ($usuario = mysqli_fetch_assoc($resultado)) {
+            
+            // 4. Verificación de contraseña (asumiendo que usas password_verify para contraseñas cifradas)
+            if (password_verify($password_usuario, $usuario['password'])) {
+                
+                // Guardamos los datos en la sesión
+                $_SESSION['id_usuario'] = $usuario['id_usuario'];
+                $_SESSION['nombres'] = $usuario['nombres'];
+                $_SESSION['rol'] = $usuario['rol'];
+                
+                // Redireccionamos según su rol (Driver o Cliente)
+                if ($usuario['rol'] == 'driver') {
+                    header("Location: dashboard-driver.php");
+                } else {
+                    header("Location: dashboard-user.php");
+                }
+                exit();
+            } else {
+                echo "<script>alert('Contraseña incorrecta');</script>";
             }
-
-            exit();
-
-        }else{
-
-            $error = "Contraseña incorrecta";
-
+        } else {
+            echo "<script>alert('El correo no está registrado');</script>";
         }
-
-    }else{
-
-        $error = "Usuario no encontrado";
-
+        
+        mysqli_stmt_close($stmt);
     }
-
 }
 ?>
 
